@@ -1,0 +1,23 @@
+{
+  "name": "three-js-game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cannon-es": "^0.20.0",
+    "three": "^0.178.0"
+  },
+  "devDependencies": {
+    "sass": "^1.89.2",
+    "three-x3": "^0.0.10",
+    "vite": "^7.0.6"
+  }
+}
