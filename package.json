@@ -12,12 +12,13 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "cannon-es": "^0.20.0",
+    "@dimforge/rapier3d": "^0.18.0",
     "three": "^0.178.0"
   },
   "devDependencies": {
     "sass": "^1.89.2",
     "three-x3": "^0.0.10",
-    "vite": "^7.0.6"
+    "vite": "^7.0.6",
+    "vite-plugin-wasm": "^3.5.0"
   }
 }

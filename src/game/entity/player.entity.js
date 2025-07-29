@@ -1,62 +1,35 @@
 import { BoxGeometry, Mesh, MeshPhongMaterial } from "three";
 import { keys } from "../../core/keys";
-import * as CANNON from "cannon-es";
+import RAPIER from "@dimforge/rapier3d";
 
 export default class Player {
-  object = null;
-  speed = 14;
+  game = null;
+
+  name = "Player";
+  mesh = null;
+  body = null;
+  collider = null;
+
+  speed = 0.001;
   rotSpeed = 1.5;
 
-  constructor() {
-    const mesh = new Mesh(new BoxGeometry(1, 1, 1), new MeshPhongMaterial());
-    const shape = new CANNON.Box(new CANNON.Vec3(0.5, 0.5, 0.5));
-    const body = new CANNON.Body({
-      mass: 1,
-      shape,
-      position: new CANNON.Vec3(0, 2, 0),
-    });
-    body.fixedRotation = true;
-    body.updateMassProperties();
-    body.angularFactor.set(0, 0, 0);
+  constructor(game) {
+    this.game = game;
 
-    mesh.castShadow = true;
-    mesh.receiveShadow = true;
+    this.mesh = new Mesh(new BoxGeometry(1, 1, 1), new MeshPhongMaterial());
+    this.mesh.castShadow = true;
+    this.mesh.receiveShadow = true;
+    this.mesh.position.set(0, 2, 0);
 
-    this.object = {
-      name: "Player",
-      entity: mesh,
-      body: body,
-    };
+    this.body = this.game.world.createRigidBody(
+      RAPIER.RigidBodyDesc.dynamic().setTranslation(0, 2, 0).lockRotations()
+    );
+
+    this.collider = RAPIER.ColliderDesc.cuboid(0.5, 0.5, 0.5);
+    this.game.world.createCollider(this.collider, this.body);
   }
 
-  update(dt) {
-    const { body } = this.object;
+  update(dt) {}
 
-    const move = new CANNON.Vec3();
-
-    if (keys.w) move.z -= 1;
-    if (keys.s) move.z += 1;
-
-    if (move.length()) {
-      move.normalize();
-      const worldMove = new CANNON.Vec3();
-      body.quaternion.vmult(move, worldMove);
-      worldMove.scale(this.speed, worldMove);
-      body.velocity.x = worldMove.x;
-      body.velocity.z = worldMove.z;
-    } else {
-      // para suavizar parada
-      body.velocity.x = 0;
-      body.velocity.z = 0;
-    }
-
-    if (keys.a) {
-      const q = new CANNON.Quaternion().setFromEuler(0, this.rotSpeed * dt, 0);
-      body.quaternion = body.quaternion.mult(q);
-    }
-    if (keys.d) {
-      const q = new CANNON.Quaternion().setFromEuler(0, -this.rotSpeed * dt, 0);
-      body.quaternion = body.quaternion.mult(q);
-    }
-  }
+  movement() {}
 }
