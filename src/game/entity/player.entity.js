@@ -10,26 +10,35 @@ export default class Player {
   body = null;
   collider = null;
 
-  speed = 0.001;
+  speed = 100;
   rotSpeed = 1.5;
 
   constructor(game) {
     this.game = game;
+    this.create();
+  }
 
+  create() {
     this.mesh = new Mesh(new BoxGeometry(1, 1, 1), new MeshPhongMaterial());
     this.mesh.castShadow = true;
     this.mesh.receiveShadow = true;
     this.mesh.position.set(0, 2, 0);
 
     this.body = this.game.world.createRigidBody(
-      RAPIER.RigidBodyDesc.dynamic().setTranslation(0, 2, 0).lockRotations()
+      RAPIER.RigidBodyDesc.dynamic()
+        .setTranslation(0, 2, 0)
+        .enabledRotations(false, true, false)
     );
 
-    this.collider = RAPIER.ColliderDesc.cuboid(0.5, 0.5, 0.5);
-    this.game.world.createCollider(this.collider, this.body);
+    this.collider = this.game.world.createCollider(
+      RAPIER.ColliderDesc.cuboid(0.5, 0.5, 0.5),
+      this.body
+    );
   }
 
-  update(dt) {}
+  update(dt) {
+    this.movement(dt);
+  }
 
-  movement() {}
+  movement(dt) {}
 }

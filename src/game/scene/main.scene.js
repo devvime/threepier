@@ -1,6 +1,7 @@
 import { HemisphereLight, PointLight, PerspectiveCamera, Scene } from "three";
 import Player from "../entity/player.entity";
 import Floor from "../entity/floor.entity";
+import { MainCamera } from "../components/main.camera";
 
 export default class MainScene extends Scene {
   game = null;
@@ -13,21 +14,12 @@ export default class MainScene extends Scene {
   constructor(game) {
     super();
     this.game = game;
-
-    this.mainCamera = new PerspectiveCamera(
-      75,
-      innerWidth / innerHeight,
-      0.1,
-      1000
-    );
-    this.mainCamera.position.set(0, 5, 10);
-    this.mainCamera.lookAt(0, 0, 0);
+    this.mainCamera = new MainCamera();
   }
 
   create() {
     this.objects["player"] = new Player(this.game);
     this.objects["floor"] = new Floor(this.game);
-
     this.setLight();
   }
 

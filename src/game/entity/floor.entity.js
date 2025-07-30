@@ -22,8 +22,10 @@ export default class Floor {
 
     this.body = this.game.world.createRigidBody(RAPIER.RigidBodyDesc.fixed());
 
-    this.collider = RAPIER.ColliderDesc.cuboid(5, 0.15, 5);
-    this.game.world.createCollider(this.collider, this.body);
+    this.collider = this.game.world.createCollider(
+      RAPIER.ColliderDesc.cuboid(5, 0.15, 5),
+      this.body
+    );
   }
 
   update() {}
