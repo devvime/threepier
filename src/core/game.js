@@ -1,10 +1,10 @@
+import "./oimo.js";
 import * as THREE from "three";
 import THREEx3 from "three-x3";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-import settings from "../game/settings.json";
+import settings from "../game/settings.js";
 import { setKeys } from "./keys";
 import { Clock } from "three";
-import RAPIER from "@dimforge/rapier3d";
 
 export default class Game {
   currentScene = null;
@@ -13,7 +13,7 @@ export default class Game {
   world = null;
 
   constructor() {
-    this.world = new RAPIER.World(settings.gravity);
+    this.world = new OIMO.World(settings.world);
     setKeys();
   }
 
@@ -41,12 +41,10 @@ export default class Game {
       const delta = this.clock.getDelta();
       this.currentScene.update(delta);
       this.updatePhisic();
-
       if (settings.debug && this.x3) {
         this.updateDebug(renderer);
         return;
       }
-
       renderer.render(this.currentScene, this.currentScene.mainCamera);
     });
   }
@@ -55,10 +53,8 @@ export default class Game {
     this.world.step();
     for (const object of Object.values(this.currentScene.objects)) {
       if (object.body) {
-        const pos = object.body.translation();
-        const rot = object.body.rotation();
-        object.mesh.position.set(pos.x, pos.y, pos.z);
-        object.mesh.quaternion.set(rot.x, rot.y, rot.z, rot.w);
+        object.mesh.position.copy(object.body.getPosition());
+        object.mesh.quaternion.copy(object.body.getQuaternion());
       }
     }
   }

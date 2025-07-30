@@ -1,6 +1,5 @@
 import { BoxGeometry, Mesh, MeshPhongMaterial } from "three";
 import { keys } from "../../core/keys";
-import RAPIER from "@dimforge/rapier3d";
 
 export default class Player {
   game = null;
@@ -10,8 +9,9 @@ export default class Player {
   body = null;
   collider = null;
 
-  speed = 100;
-  rotSpeed = 1.5;
+  speed = 5;
+  turnSpeed = 5;
+  jumpForce = 5;
 
   constructor(game) {
     this.game = game;
@@ -24,21 +24,28 @@ export default class Player {
     this.mesh.receiveShadow = true;
     this.mesh.position.set(0, 2, 0);
 
-    this.body = this.game.world.createRigidBody(
-      RAPIER.RigidBodyDesc.dynamic()
-        .setTranslation(0, 2, 0)
-        .enabledRotations(false, true, false)
-    );
+    this.body = this.game.world.add({
+      type: "box",
+      size: [1, 1, 1],
+      pos: [0, 5, 0],
+      rot: [0, 0, 0],
+      move: true,
+      density: 1,
+    });
 
-    this.collider = this.game.world.createCollider(
-      RAPIER.ColliderDesc.cuboid(0.5, 0.5, 0.5),
-      this.body
-    );
+    console.log(this.body);
   }
 
   update(dt) {
     this.movement(dt);
   }
 
-  movement(dt) {}
+  movement(dt) {
+    if (keys.w) this.body.position.x += this.speed * dt;
+    if (keys.s) this.body.position.x -= this.speed * dt;
+
+    if (keys.a) this.body.rotation.y += this.turnSpeed;
+
+    // if (keys[" "]) this.body.linearVelocity.y = this.jumpForce;
+  }
 }
