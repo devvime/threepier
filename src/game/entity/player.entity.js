@@ -1,4 +1,4 @@
-import { BoxGeometry, Mesh, MeshPhongMaterial } from "three";
+import { Box3, BoxGeometry, Mesh, MeshPhongMaterial, Vector3 } from "three";
 import { keys } from "../../core/keys";
 
 export default class Player {
@@ -12,6 +12,8 @@ export default class Player {
   speed = 5;
   turnSpeed = 5;
   jumpForce = 5;
+
+  onGround = false;
 
   constructor(game) {
     this.game = game;
@@ -33,19 +35,48 @@ export default class Player {
       density: 1,
     });
 
-    console.log(this.body);
+    this.collider = new Box3().setFromObject(this.mesh);
+
+    console.log(this.collider);
   }
 
   update(dt) {
     this.movement(dt);
+    this.collision();
   }
 
   movement(dt) {
-    if (keys.w) this.body.position.x += this.speed * dt;
-    if (keys.s) this.body.position.x -= this.speed * dt;
+    const direction = new Vector3(
+      Math.sin(this.mesh.rotation.y),
+      0,
+      Math.cos(this.mesh.rotation.y)
+    );
 
-    if (keys.a) this.body.rotation.y += this.turnSpeed;
+    if (!this.onGround) return;
+    if (keys.w)
+      this.mesh.position.add(direction.clone().multiplyScalar(this.speed * dt));
 
-    // if (keys[" "]) this.body.linearVelocity.y = this.jumpForce;
+    if (keys.s)
+      this.mesh.position.add(
+        direction.clone().multiplyScalar(-this.speed * dt)
+      );
+
+    if (keys.a) this.mesh.rotation.y += this.turnSpeed * dt;
+    if (keys.d) this.mesh.rotation.y -= this.turnSpeed * dt;
+
+    if (keys[" "]) this.body.linearVelocity.y = this.jumpForce;
+  }
+
+  collision() {
+    this.collider.setFromObject(this.mesh);
+
+    const floorCollider = this.game.currentScene.objects["floor"].collider;
+    if (this.collider.intersectsBox(floorCollider)) {
+      this.onGround = true;
+    } else {
+      this.onGround = false;
+    }
+
+    console.log(this.onGround);
   }
 }

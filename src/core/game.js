@@ -52,9 +52,18 @@ export default class Game {
   updatePhisic() {
     this.world.step();
     for (const object of Object.values(this.currentScene.objects)) {
-      if (object.body) {
+      if (object.body && object.name !== "Player") {
         object.mesh.position.copy(object.body.getPosition());
         object.mesh.quaternion.copy(object.body.getQuaternion());
+      }
+      if (object.body && object.name === "Player") {
+        object.body.quaternion.x = object.mesh.quaternion.x;
+        object.body.quaternion.z = object.mesh.quaternion.z;
+        object.body.quaternion.y = object.mesh.quaternion.y;
+
+        object.mesh.position.y = object.body.getPosition().y;
+        object.body.position.x = object.mesh.position.x;
+        object.body.position.z = object.mesh.position.z;
       }
     }
   }

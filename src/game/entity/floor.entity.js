@@ -1,4 +1,4 @@
-import { MeshPhongMaterial } from "three";
+import { Box3, MeshPhongMaterial } from "three";
 import { BoxGeometry } from "three";
 import { Mesh } from "three";
 
@@ -27,6 +27,8 @@ export default class Floor {
       move: false,
       density: 1,
     });
+
+    this.collider = new Box3().setFromObject(this.mesh);
   }
 
   update() {}
