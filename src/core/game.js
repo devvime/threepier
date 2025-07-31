@@ -65,6 +65,24 @@ export default class Game {
         object.body.position.x = object.mesh.position.x;
         object.body.position.z = object.mesh.position.z;
       }
+      this.setCollisions(object);
+    }
+  }
+
+  setCollisions(object) {
+    if (object.collider) {
+      object.collider.setFromObject(object.mesh);
+      for (const sceneObject of Object.values(this.currentScene.objects)) {
+        if (!sceneObject.collider) continue;
+        if (object.collider.intersectsBox(sceneObject.collider)) {
+          if (object.collisions.includes(...sceneObject.properties)) return;
+          object.collisions.push(...sceneObject.properties);
+        } else {
+          object.collisions = object.collisions.filter(
+            (property) => !sceneObject.properties.includes(property)
+          );
+        }
+      }
     }
   }
 

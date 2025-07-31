@@ -9,6 +9,8 @@ export default class Floor {
   mesh = null;
   body = null;
   collider = null;
+  properties = ["floor"];
+  collisions = [];
 
   constructor(game) {
     this.game = game;

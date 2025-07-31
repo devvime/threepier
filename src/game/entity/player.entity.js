@@ -3,11 +3,14 @@ import { keys } from "../../core/keys";
 
 export default class Player {
   game = null;
+  scene = null;
 
   name = "Player";
   mesh = null;
   body = null;
   collider = null;
+  properties = [];
+  collisions = [];
 
   speed = 5;
   turnSpeed = 5;
@@ -17,6 +20,7 @@ export default class Player {
 
   constructor(game) {
     this.game = game;
+    this.scene = game.currentScene;
     this.create();
   }
 
@@ -64,19 +68,20 @@ export default class Player {
     if (keys.a) this.mesh.rotation.y += this.turnSpeed * dt;
     if (keys.d) this.mesh.rotation.y -= this.turnSpeed * dt;
 
-    if (keys[" "]) this.body.linearVelocity.y = this.jumpForce;
+    this.jump();
+  }
+
+  jump() {
+    if (keys[" "]) {
+      this.body.linearVelocity.y = this.jumpForce;
+    }
   }
 
   collision() {
-    this.collider.setFromObject(this.mesh);
-
-    const floorCollider = this.game.currentScene.objects["floor"].collider;
-    if (this.collider.intersectsBox(floorCollider)) {
+    if (this.collisions.includes("floor")) {
       this.onGround = true;
     } else {
       this.onGround = false;
     }
-
-    console.log(this.onGround);
   }
 }
