@@ -1,31 +1,22 @@
-import { HemisphereLight, PointLight, PerspectiveCamera, Scene } from "three";
-import Player from "../entity/player.entity";
+import { Scene } from "../../core/scene";
+import { HemisphereLight, PointLight } from "three";
+import Player from "../entity/player/player.entity";
 import Floor from "../entity/floor.entity";
-import { MainCamera } from "../components/main.camera";
+import Box from "../entity/box.entity";
 
 export default class MainScene extends Scene {
-  game = null;
-  mainCamera = null;
-  objects = {};
-
-  player = null;
   floor = null;
-
-  constructor(game) {
-    super();
-    this.game = game;
-    this.mainCamera = new MainCamera();
-  }
+  player = null;
+  box = null;
 
   create() {
-    this.objects["player"] = new Player(this.game);
     this.objects["floor"] = new Floor(this.game);
+    this.objects["player"] = new Player(this.game);
+    this.objects["box"] = new Box(this.game);
     this.setLight();
   }
 
-  update(dt) {
-    this.objects["player"].update(dt);
-  }
+  update(dt) {}
 
   setLight() {
     this.objects["ambientLight"] = {
@@ -36,7 +27,7 @@ export default class MainScene extends Scene {
 
     this.objects["mainLight"] = {
       name: "MainLight",
-      mesh: new PointLight(0xffffff, 5, 60),
+      mesh: new PointLight(0xffffff, 15, 60),
     };
     this.objects["mainLight"].mesh.castShadow = true;
     this.objects["mainLight"].mesh.position.y = 5;

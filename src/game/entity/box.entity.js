@@ -3,24 +3,24 @@ import { BoxGeometry } from "three";
 import { Mesh } from "three";
 import Entity from "../../core/entity";
 
-export default class Floor extends Entity {
-  name = "Floor";
-  properties = ["floor"];
+export default class Box extends Entity {
+  name = "Box";
+  properties = ["box"];
 
   create() {
     this.mesh = new Mesh(
-      new BoxGeometry(10, 0.3, 10),
-      new MeshPhongMaterial({ color: 0xa7dbb3 })
+      new BoxGeometry(1, 1, 1),
+      new MeshPhongMaterial({ color: 0xd6cda5 })
     );
     this.mesh.receiveShadow = true;
 
     this.body = this.game.world.add({
       type: "box",
-      size: [10, 0.3, 10],
-      pos: [0, 0, 0],
+      size: [1, 1, 1],
+      pos: [3, 3, 3],
       rot: [0, 0, 0],
-      move: false,
-      density: 1,
+      move: true,
+      density: 50,
     });
 
     this.collider = new Box3().setFromObject(this.mesh);

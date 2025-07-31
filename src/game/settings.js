@@ -7,6 +7,6 @@ export default {
     worldscale: 1, // scale full world
     random: true, // randomize sample
     info: false, // calculate statistic or not
-    gravity: [0, -9.8, 0],
+    gravity: [0, -12, 0],
   },
 };
