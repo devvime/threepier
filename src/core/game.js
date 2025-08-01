@@ -19,9 +19,9 @@ export default class Game {
     setKeys();
   }
 
-  setScene(scene) {
+  async setScene(scene) {
     this.currentScene = scene;
-    this.currentScene.create();
+    await this.currentScene.create();
     addSceneObjects(this.currentScene);
   }
 

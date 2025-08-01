@@ -9,7 +9,7 @@ export default class MainScene extends Scene {
   player = null;
   box = null;
 
-  create() {
+  async create() {
     this.objects["floor"] = new Floor(this.game);
     this.objects["player"] = new Player(this.game);
     this.objects["box"] = new Box(this.game);

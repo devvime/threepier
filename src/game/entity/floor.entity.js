@@ -17,7 +17,7 @@ export default class Floor extends Entity {
     this.body = this.game.world.add({
       type: "box",
       size: [10, 0.3, 10],
-      pos: [0, 0, 0],
+      pos: [0, -0.15, 0],
       rot: [0, 0, 0],
       move: false,
       density: 1,
