@@ -5,10 +5,6 @@ import Floor from "../entity/floor.entity";
 import Box from "../entity/box.entity";
 
 export default class MainScene extends Scene {
-  floor = null;
-  player = null;
-  box = null;
-
   async create() {
     this.objects["floor"] = new Floor(this.game);
     this.objects["player"] = new Player(this.game);

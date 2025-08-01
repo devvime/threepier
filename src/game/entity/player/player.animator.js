@@ -2,9 +2,13 @@ import { keys } from "../../../core/keys";
 
 export function playerAnimations(player) {
   if (!player.animator) return;
-  if (keys.w || keys.a || keys.d) {
-    player.animator.play("walk");
+  if (!player.onGround) {
+    player.animator.play("jump");
   } else {
-    player.animator.play("idle");
+    if (keys.w || keys.a || keys.d) {
+      player.animator.play("walk");
+    } else {
+      player.animator.play("idle");
+    }
   }
 }
