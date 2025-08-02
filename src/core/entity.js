@@ -1,6 +1,5 @@
 import { Animator } from "./animator";
 import { loader } from "./loader";
-import { AnimationClip } from "three";
 
 export default class Entity {
   game = null;
@@ -9,9 +8,9 @@ export default class Entity {
   mesh = null;
   body = null;
   model = null;
+  collider = null;
   animations = null;
   animator = null;
-  collider = null;
   properties = [];
   collisions = [];
 

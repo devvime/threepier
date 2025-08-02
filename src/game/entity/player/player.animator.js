@@ -3,7 +3,7 @@ import { keys } from "../../../core/keys";
 export function playerAnimations(player) {
   if (!player.animator) return;
   if (!player.onGround) {
-    player.animator.play("jump");
+    player.animator.play("fall");
   } else {
     if (keys.w || keys.a || keys.d) {
       player.animator.play("walk");

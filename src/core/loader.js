@@ -15,10 +15,11 @@ export async function loader(path) {
       (gltf) => {
         const model = gltf.scene;
         const animations = gltf.animations;
+        model.castShadow = true;
         model.traverse((child) => {
           if (child.isMesh) {
-            // child.castShadow = true;
-            child.receiveShadow = true;
+            child.castShadow = true;
+            // child.receiveShadow = true;
           }
         });
         const mixer = animations.length > 0 ? new AnimationMixer(model) : null;

@@ -1,7 +1,9 @@
 export function playerCollision(player) {
-  if (player.collisions.includes("floor")) {
-    player.onGround = true;
-  } else {
-    player.onGround = false;
-  }
+  player.game.world.contactPairsWith(player.collider, (otherCollider) => {
+    if (otherCollider.userData.type === "floor") {
+      player.onGround = true;
+    } else {
+      player.onGround = false;
+    }
+  });
 }

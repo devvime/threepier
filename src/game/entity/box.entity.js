@@ -1,7 +1,8 @@
-import { Box3, MeshPhongMaterial } from "three";
+import { MeshPhongMaterial } from "three";
 import { BoxGeometry } from "three";
 import { Mesh } from "three";
 import Entity from "../../core/entity";
+import RAPIER from "@dimforge/rapier3d";
 
 export default class Box extends Entity {
   name = "Box";
@@ -13,17 +14,17 @@ export default class Box extends Entity {
       new MeshPhongMaterial({ color: 0xd6cda5 })
     );
     this.mesh.receiveShadow = true;
+    this.mesh.castShadow = true;
 
-    this.body = this.game.world.add({
-      type: "box",
-      size: [1, 1, 1],
-      pos: [3, 3, 3],
-      rot: [0, 0, 0],
-      move: true,
-      density: 50,
-    });
+    this.body = this.game.world.createRigidBody(
+      RAPIER.RigidBodyDesc.dynamic().setTranslation(3, 5, 3)
+    );
 
-    this.collider = new Box3().setFromObject(this.mesh);
+    this.collider = this.game.world.createCollider(
+      RAPIER.ColliderDesc.cuboid(0.5, 0.5, 0.5),
+      this.body
+    );
+    this.collider.userData = { type: "player", ref: this };
   }
 
   update() {}

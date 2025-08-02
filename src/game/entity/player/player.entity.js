@@ -1,7 +1,8 @@
-import { Box3, BoxGeometry, Mesh, MeshPhongMaterial, Vector3 } from "three";
+import { BoxGeometry, Mesh, MeshPhongMaterial } from "three";
 import Entity from "../../../core/entity";
 import { playerMovement } from "./player.movement";
 import { playerCollision } from "./player.collision";
+import RAPIER from "@dimforge/rapier3d";
 
 export default class Player extends Entity {
   name = "Player";
@@ -12,29 +13,28 @@ export default class Player extends Entity {
 
   async create() {
     this.mesh = new Mesh(
-      new BoxGeometry(1, 1, 1),
+      new BoxGeometry(0.5, 1.8, 0.4),
       new MeshPhongMaterial({
         color: 0x6bc7ff,
-        opacity: 0.5,
+        opacity: 0.3,
         transparent: true,
       })
     );
-    this.mesh.castShadow = true;
 
-    this.body = this.game.world.add({
-      type: "box",
-      size: [1, 1, 1],
-      pos: [-2, 5, 0],
-      move: true,
-      density: 1,
-    });
+    this.body = this.game.world.createRigidBody(
+      RAPIER.RigidBodyDesc.dynamic().setTranslation(-3, 5, 0).lockRotations()
+    );
+    this.body.lockRotations(false);
+    this.body.restrictRotations(true, false, true);
 
-    this.body.orientation.set(0, 0, 0, 1);
-
-    this.collider = new Box3().setFromObject(this.mesh);
+    this.collider = this.game.world.createCollider(
+      RAPIER.ColliderDesc.capsule(0.6, 0.27),
+      this.body
+    );
+    this.collider.userData = { type: "player", ref: this };
 
     await this.loadModel("src/assets/player.glb");
-
+    this.model.position.y = -0.9;
     this.mesh.add(this.model);
   }
 

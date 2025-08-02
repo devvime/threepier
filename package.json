@@ -12,6 +12,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@dimforge/rapier3d": "^0.18.0",
     "three": "^0.178.0"
   },
   "devDependencies": {

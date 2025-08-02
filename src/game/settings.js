@@ -1,12 +1,4 @@
 export default {
   debug: true,
-  world: {
-    timestep: 1 / 60,
-    iterations: 8,
-    broadphase: 2, // 1 brute force, 2 sweep and prune, 3 volume tree
-    worldscale: 1, // scale full world
-    random: true, // randomize sample
-    info: false, // calculate statistic or not
-    gravity: [0, -15, 0],
-  },
+  gravity: { x: 0.0, y: -9.81, z: 0.0 },
 };
