@@ -1,4 +1,4 @@
-export function updatePhisic(game) {
+export function updatePhysic(game) {
   if (game.world) game.world.step();
   for (const object of Object.values(game.currentScene.objects)) {
     if (!object.body || !object.mesh) continue;

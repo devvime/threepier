@@ -2,8 +2,8 @@ import * as THREE from "three";
 import settings from "../game/settings.js";
 import { setKeys } from "./keys";
 import { Clock } from "three";
-import { setDebug, updateDebug } from "./debug.js";
-import { updatePhisic } from "./phisic.js";
+import { setDebug, updateDebug, updateDebugMeshes } from "./debug.js";
+import { updatePhysic } from "./physic.js";
 import {
   addSceneDebugMeshes,
   addSceneObjects,
@@ -28,7 +28,7 @@ export default class Game {
     this.currentScene = scene;
     await this.currentScene.create();
     addSceneObjects(this.currentScene);
-    if (settings.debug) addSceneDebugMeshes(this);
+    if (settings.physicDebug) addSceneDebugMeshes(this);
   }
 
   render() {
@@ -47,8 +47,9 @@ export default class Game {
       const deltaTime = this.clock.getDelta();
       this.currentScene.update(deltaTime);
       updateSceneObjects(this.currentScene, deltaTime);
-      if (this.world) updatePhisic(this);
+      if (this.world) updatePhysic(this);
       if (this.debug) return updateDebug(this);
+      if (settings.physicDebug) updateDebugMeshes(this);
       this.renderer.render(this.currentScene, this.currentScene.mainCamera);
     });
   }

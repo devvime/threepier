@@ -23,7 +23,7 @@ export default class Floor extends Entity {
       RAPIER.ColliderDesc.cuboid(5, 0.15, 5),
       this.body
     );
-    this.collider.userData = { type: "floor", ref: this };
+    this.collider.userData = { type: "floor", props: ["ground"], ref: this };
   }
 
   update() {}

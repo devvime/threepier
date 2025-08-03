@@ -31,7 +31,6 @@ export function updateDebug(game) {
   game.debug.fps(() => {
     game.renderer.render(game.currentScene, game.currentScene.mainCamera);
   });
-  updateDebugMeshes(game);
 }
 
 export function createColliderDebugMesh(collider, rapier) {
@@ -65,6 +64,8 @@ export function createColliderDebugMesh(collider, rapier) {
     color: 0x00ff00,
     wireframe: true,
     depthTest: false,
+    opacity: 0.15,
+    transparent: true,
   });
   const mesh = new THREE.Mesh(geometry, material);
   mesh.renderOrder = 999;

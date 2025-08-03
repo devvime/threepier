@@ -1,4 +1,5 @@
 export default {
-  debug: true,
-  gravity: { x: 0.0, y: -9.81, z: 0.0 },
+  debug: false,
+  physicDebug: false,
+  gravity: { x: 0.0, y: -15, z: 0.0 },
 };

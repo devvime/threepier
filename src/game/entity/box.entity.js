@@ -17,14 +17,16 @@ export default class Box extends Entity {
     this.mesh.castShadow = true;
 
     this.body = this.game.world.createRigidBody(
-      RAPIER.RigidBodyDesc.dynamic().setTranslation(3, 5, 3)
+      RAPIER.RigidBodyDesc.dynamic()
+        .setTranslation(3, 5, 3)
+        .setAdditionalMass(5)
     );
 
     this.collider = this.game.world.createCollider(
       RAPIER.ColliderDesc.cuboid(0.5, 0.5, 0.5),
       this.body
     );
-    this.collider.userData = { type: "player", ref: this };
+    this.collider.userData = { type: "box", props: ["ground"], ref: this };
   }
 
   update() {}
