@@ -11,6 +11,7 @@ import {
 } from "./scene.js";
 
 import RAPIER from "@dimforge/rapier3d";
+import { defaultConfig } from "./config.js";
 
 export default class Game {
   currentScene = null;
@@ -20,6 +21,7 @@ export default class Game {
   clock = new Clock();
 
   constructor() {
+    defaultConfig()
     this.world = new RAPIER.World(settings.gravity);
     setKeys();
   }

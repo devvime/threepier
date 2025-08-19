@@ -1,6 +1,6 @@
 import { Vector3, Quaternion } from "three";
 
-const desiredCameraOffset = new Vector3(0, 0.5, 2.8); // posição relativa à frente do player
+const desiredCameraOffset = new Vector3(0, 0.2, 1.7); // posição relativa à frente do player
 const cameraPosition = new Vector3(); // posição real da câmera (suavizada)
 const targetPosition = new Vector3(); // para cálculo de posição do player
 const lookTarget = new Vector3(); // para onde a câmera vai olhar (player)
